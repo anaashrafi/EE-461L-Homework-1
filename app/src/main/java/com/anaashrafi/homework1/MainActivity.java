@@ -5,31 +5,46 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     TextView showCoordinates;
+    MapView mapView1;
+
+    private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
+        }
+        mapView1 = findViewById(R.id.mapView);
+        mapView1.onCreate(mapViewBundle);
+        mapView1.getMapAsync(this);
     }
 
     public void searchCoordinates (View view) {
         // Get the text view.
         showCoordinates = (TextView)
                 findViewById(R.id.textView);
-
+        RequestQueue locationQueue = Volley.newRequestQueue(this);
         TextView add = (TextView) findViewById(R.id.editText);
 
         // get address
@@ -67,8 +82,15 @@ public class MainActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
+
+        locationQueue.add(request);
     }
 
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+    }
 }
 
     //MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
