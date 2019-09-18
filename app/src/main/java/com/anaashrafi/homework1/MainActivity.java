@@ -222,10 +222,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             System.out.println(temp +","+ humid +","+ wind + "," + precip);
                             System.out.println("Hi");
-                            temperature.append(String.valueOf(temp)+"\u00B0"+"F");
-                            humidity.append(String.valueOf(humid) + "%");
-                            windSpeed.append(String.valueOf(wind) + " mph");
-                            precipitation.append(String.valueOf(precip) + "%");
+                            temperature.setText("Temperature: " + String.valueOf(temp)+"\u00B0"+"F");
+                            humidity.setText("Humidity: " + String.valueOf(humid) + "%");
+                            windSpeed.setText("Wind Speed: " + String.valueOf(wind) + " mph");
+                            precipitation.setText("Precipitation: " + String.valueOf(precip) + "%");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
